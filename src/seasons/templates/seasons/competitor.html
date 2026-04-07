@@ -111,7 +111,7 @@
         <div class="card">
             {% if events_list %}
                 {% for event in events_list %}
-                    <p>{{ event }}: {{ event.doty_points }}</p>
+                    <p>{{ event }}: {{ event.doty_points|floatformat:3 }}</p>
                 {% endfor %}
             {% else %}
                 <p class="empty">No events are available.</p>
