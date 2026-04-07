@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Search + Split Results</title>
+<style>
+  body {
+    margin:0; font-family:system-ui,sans-serif;
+    display:flex; flex-direction:column; min-height:100vh;
+    background:#0f172a; color:#e5e7eb;
+  }
+
+  /* Centered header + dropdown */
+  .header { max-width:1100px; margin:0 auto; padding:20px; }
+  h1 { margin:0 0 8px; font-size:clamp(18px,3vw,24px); }
+  select { padding:10px; border-radius:8px; border:1px solid #334155; background:#0b1222; color:#e5e7eb; }
+
+  /* Wider search bar */
+  .searchbar { max-width:2000px; margin:0 auto 20px auto; padding:0 20px; }
+  .searchbar input {
+    width:2000px; padding:14px; border-radius:12px; border:1px solid #334155;
+    background:#0b1222; color:#e5e7eb; font-size:16px;
+  }
+
+  /* Split panes */
+  .split { flex:1; display:grid; grid-template-columns:1fr 10px 1fr; overflow:hidden; padding:0 20px 20px; background:#111827; }
+  .pane { overflow:auto; padding:14px; }
+  .pane h2 { margin:0 0 10px; font-size:13px; color:#cbd5e1; }
+  .result { background:#0b1328; border:1px solid #22304a; border-radius:12px; padding:12px; margin-bottom:10px; }
+  .gutter { background:#1f2937; cursor:col-resize; position:relative; }
+  .gutter:after { content:""; position:absolute; inset:0; width:3px; margin:auto; height:40px; background:#374151; border-radius:2px; }
+
+  @media(max-width:780px){ .split{grid-template-columns:1fr; grid-template-rows:1fr 8px 1fr;} .gutter{cursor:row-resize;} .gutter:after{width:40px;height:3px;} }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Search</h1>
+  <label>Category:
+    <select id="category">
+      <option value="all">All</option>
+      <option value="alpha">Alpha</option>
+      <option value="beta">Beta</option>
+      <option value="gamma">Gamma</option>
+    </select>
+  </label>
+</div>
+
+<div class="searchbar">
+  <input id="q" type="search" placeholder="Type to filter…">
+</div>
+
+<section class="split">
+  <div class="pane left"><h2>Left Results</h2><div id="leftResults"></div></div>
+  <div class="gutter"></div>
+  <div class="pane right"><h2>Right Results</h2><div id="rightResults"></div></div>
+</section>
+
+<script>
+const data = Array.from({length:30},(_,i)=>({
+  id:i+1,title:"Item "+(i+1),category:["alpha","beta","gamma"][i%3],description:"Description for item "+(i+1)
+}));
+
+const q=document.getElementById("q");
+const category=document.getElementById("category");
+const leftResults=document.getElementById("leftResults");
+const rightResults=document.getElementById("rightResults");
+
+function render(list){
+  const mid=Math.ceil(list.length/2);
+  const card=r=>`<div class="result"><strong>${r.title}</strong> (${r.category})<br>${r.description}</div>`;
+  leftResults.innerHTML=list.slice(0,mid).map(card).join("");
+  rightResults.innerHTML=list.slice(mid).map(card).join("");
+}
+
+function applyFilter(){
+  const term=q.value.trim().toLowerCase();
+  const cat=category.value;
+  const filtered=data.filter(d=>((cat==="all")||d.category===cat)&&(!term||d.title.toLowerCase().includes(term)||d.description.toLowerCase().includes(term)));
+  render(filtered);
+}
+
+q.addEventListener("input",applyFilter);
+category.addEventListener("change",applyFilter);
+render(data);
+
+// Resizable gutter
+const split=document.querySelector(".split");
+const gutter=split.querySelector(".gutter");
+let isDragging=false;
+gutter.addEventListener("mousedown",()=>isDragging=true);
+window.addEventListener("mouseup",()=>isDragging=false);
+window.addEventListener("mousemove",(e)=>{
+  if(!isDragging)return;
+  const rect=split.getBoundingClientRect();
+  const percent=(e.clientX-rect.left)/rect.width*100;
+  if(percent>20 && percent<80){ split.style.gridTemplateColumns=`${percent}% 10px ${100-percent}%`; }
+});
+</script>
+</body>
+</html>
