@@ -97,7 +97,8 @@
         <div class="card">
             <p>Best DOTY Placement: {{ best_doty }}</p>
             <p>Average DOTY Placement: {{ avg_doty|floatformat:0 }}</p>
-            <p>Avg Event Points: {{ avg_points|floatformat:3 }}</p>
+            <p>Best Event Points: {{ best_event_points|floatformat:3 }} - {{best_event}}</p>
+            <p>Average Event Points: {{ avg_points|floatformat:3 }}</p>
             <p>Total Events Completed: {{ event_count }}</p>
         </div>
 

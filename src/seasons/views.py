@@ -86,9 +86,11 @@ class DriverView(generic.DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(DriverView, self).get_context_data(**kwargs)
-        context['avg_points'] = Driver.get_average_points(self.object)
-        context['event_count'] = Driver.get_total_event_count(self.object)
-        context['avg_doty'] = Driver.get_average_doty(self.object)
-        context['best_doty'] = Driver.get_best_doty(self.object)
+        context['avg_points'] = Driver.get_average_event_points(self.object)
+        context['event_count'] = len(Driver.get_all_events(self.object))
+        context['avg_doty'] = Driver.get_average_doty_placement(self.object)
+        context['best_doty'] = min(Driver.get_all_season_placements(self.object))
+        context['best_event_points'] = Driver.get_best_event(self.object)[1]
+        context['best_event'] = Driver.get_best_event(self.object)[0]
         return context
 
