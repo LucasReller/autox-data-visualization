@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
     {% load humanize %}
     <head>
         <meta charset="utf-8">
@@ -140,7 +140,7 @@
                 {% if seasons_list %}
                     {% for driver in drivers_list %}
                         <div class="result">
-                            <strong>{{ driver }}</strong>
+                            <a href="{% url 'seasons:driver' pk=driver.id%}"><strong>{{ driver }}</strong></a>
                             {% for competitor in driver.find_competitors %}
                                 <a href="{% url 'seasons:competitor' competitor.id %}"
                                        data-season="{{ competitor.season.year }}"

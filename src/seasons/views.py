@@ -51,7 +51,7 @@ def check_for_new_data(year):
                 season.season_is_complete = True
                 season.save()
 
-class DriversView(generic.ListView):
+class DriversListView(generic.ListView):
     template_name = "seasons/index.html"
     context_object_name = "seasons_list"
 
@@ -59,7 +59,7 @@ class DriversView(generic.ListView):
         return Season.objects.all()
 
     def get_context_data(self, **kwargs):
-        context = super(DriversView, self).get_context_data(**kwargs)
+        context = super(DriversListView, self).get_context_data(**kwargs)
         context['seasons_list'] = Season.objects.all().order_by('-year')
         context['drivers_list'] = Driver.objects.all().order_by('name')
         return context
@@ -77,5 +77,14 @@ class CompetitorView(generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super(CompetitorView, self).get_context_data(**kwargs)
         context['events_list'] = Event.objects.filter(competitor=self.kwargs['pk'])
+        return context
+
+class DriverView(generic.DetailView):
+    model = Driver
+    template_name = "seasons/driver.html"
+    context_object_name = "driver"
+
+    def get_context_data(self, **kwargs):
+        context = super(DriverView, self).get_context_data(**kwargs)
         return context
 

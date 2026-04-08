@@ -87,7 +87,7 @@
     {% load mathfilters %}
     <!-- Header -->
     <div class="header">
-        <h1>{{ competitor.driver }} - {{competitor.season}}</h1>
+        <h1>{{ driver }} - Stats</h1>
     </div>
 
     <div class="container">
@@ -95,34 +95,29 @@
         <!-- Competitor Summary -->
         <h2>Summary</h2>
         <div class="card">
-            <p>DOTY Placement: {{ competitor.season_placement }}</p>
-            <p>Total Points: {{ competitor.season_points }}</p>
-            <p>Avg Points: {{ competitor.average_points }}</p>
-            {% if events_list.count > competitor.season.total_event_count|div:2 %}
-                <p>Scored Events: {{ competitor.season.total_event_count|div:2|floatformat:0 }}</p>
-            {% else %}
-                <p>Scored Events: {{events_list.count}} </p>
-            {% endif %}
+            <p>Best DOTY Placement: {{ competitor.season_placement }}</p>
+            <p>Average DOTY Placement: {{ competitor.season_placement }}</p>
+            <p>Avg Event Points: {{ competitor.average_points }}</p>
         </div>
 
-        <!-- Events -->
-        <h2>Events</h2>
-        <div class="card">
-            {% if events_list %}
-                {% for event in events_list %}
-                    <p>{{ event }}: {{ event.doty_points|floatformat:3 }}</p>
-                {% endfor %}
-            {% else %}
-                <p class="empty">No events are available.</p>
-            {% endif %}
-        </div>
+<!--        &lt;!&ndash; Events &ndash;&gt;-->
+<!--        <h2>Events</h2>-->
+<!--        <div class="card">-->
+<!--            {% if events_list %}-->
+<!--                {% for event in events_list %}-->
+<!--                    <p>{{ event }}: {{ event.doty_points|floatformat:3 }}</p>-->
+<!--                {% endfor %}-->
+<!--            {% else %}-->
+<!--                <p class="empty">No events are available.</p>-->
+<!--            {% endif %}-->
+<!--        </div>-->
 
-        <!-- Season -->
-        <h2>Season</h2>
-        <div class="card">
-            <p>Year: {{ competitor.season }}</p>
-            <p>Total Events: {{ competitor.season.total_event_count }}</p>
-        </div>
+<!--        &lt;!&ndash; Season &ndash;&gt;-->
+<!--        <h2>Season</h2>-->
+<!--        <div class="card">-->
+<!--            <p>Year: {{ competitor.season }}</p>-->
+<!--            <p>Total Events: {{ competitor.season.total_event_count }}</p>-->
+<!--        </div>-->
 
     </div>
 
