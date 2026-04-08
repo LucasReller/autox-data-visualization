@@ -1,4 +1,6 @@
 from django.db import models
+from django.db.models import Subquery
+
 
 # Create your models here.
 
@@ -7,6 +9,28 @@ class Driver(models.Model):
 
     def find_competitors(self):
         return Competitor.objects.filter(driver=self).order_by('-season__year')
+
+    def get_average_points(self):
+        competitors = self.find_competitors()
+        points = competitors.values_list('average_points', flat=True)
+        return sum(points) / len(points)
+
+    def get_average_doty(self):
+        competitors = self.find_competitors()
+        placements = competitors.values_list('season_placement', flat=True)
+        return sum(placements) / len(placements)
+
+    def get_best_doty(self):
+        competitors = self.find_competitors()
+        placements = competitors.values_list('season_placement', flat=True)
+        return min(placements)
+
+    def get_total_event_count(self):
+        competitors = Competitor.objects.filter(driver=self).prefetch_related('event_set')
+        events = []
+        for competitor in competitors:
+            events += competitor.event_set.all()
+        return len(events)
 
     def __str__(self):
         return self.name

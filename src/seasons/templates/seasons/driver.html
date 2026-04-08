@@ -95,9 +95,10 @@
         <!-- Competitor Summary -->
         <h2>Summary</h2>
         <div class="card">
-            <p>Best DOTY Placement: {{ competitor.season_placement }}</p>
-            <p>Average DOTY Placement: {{ competitor.season_placement }}</p>
-            <p>Avg Event Points: {{ competitor.average_points }}</p>
+            <p>Best DOTY Placement: {{ best_doty }}</p>
+            <p>Average DOTY Placement: {{ avg_doty|floatformat:0 }}</p>
+            <p>Avg Event Points: {{ avg_points|floatformat:3 }}</p>
+            <p>Total Events Completed: {{ event_count }}</p>
         </div>
 
 <!--        &lt;!&ndash; Events &ndash;&gt;-->
