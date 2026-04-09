@@ -81,6 +81,15 @@
         font-size: 0.95rem;
         color: #555;
       }
+
+        .card-row {
+            display: flex;
+            gap: 20px;
+        }
+
+        .card-column {
+            flex: 1;
+        }
     </style>
 </head>
 <body>
@@ -93,14 +102,32 @@
     <div class="container">
 
         <!-- Competitor Summary -->
-        <h2>Summary</h2>
-        <div class="card">
-            <p>Best DOTY Placement: {{ best_doty }}</p>
-            <p>Average DOTY Placement: {{ avg_doty|floatformat:0 }}</p>
-            <p>Best Event Points: {{ best_event_points|floatformat:3 }} - {{best_event}}</p>
-            <p>Average Event Points: {{ avg_points|floatformat:3 }}</p>
-            <p>Total Events Completed: {{ event_count }}</p>
+
+    <div class="card-row">
+
+        <div class="card-column">
+            <h2>Lifetime Summary</h2>
+            <div class="card">
+                <p>Best DOTY Placement: {{ lifetime_best_doty_placement }} - {{lifetime_best_doty_season}}</p>
+                <p>Average DOTY Placement: {{ lifetime_avg_doty|floatformat:0 }}</p>
+                <p>Best Event Points: {{ lifetime_best_event_points|floatformat:3 }} - {{lifetime_best_event}}</p>
+                <p>Average Event Points: {{ lifetime_avg_points|floatformat:3 }}</p>
+                <p>Total Events Completed: {{ lifetime_event_count }}</p>
+            </div>
         </div>
+
+        <div class="card-column">
+            <h2>5 year Summary</h2>
+            <div class="card">
+                <p>Best DOTY Placement: {{ filtered_best_doty_placement }} - {{filtered_best_doty_season}}</p>
+                <p>Average DOTY Placement: {{ filtered_avg_doty|floatformat:0 }}</p>
+                <p>Best Event Points: {{ filtered_best_event_points|floatformat:3 }} - {{filtered_best_event}}</p>
+                <p>Average Event Points: {{ filtered_avg_points|floatformat:3 }}</p>
+                <p>Total Events Completed: {{ filtered_event_count }}</p>
+            </div>
+        </div>
+
+    </div>
 
 <!--        &lt;!&ndash; Events &ndash;&gt;-->
 <!--        <h2>Events</h2>-->

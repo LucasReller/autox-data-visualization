@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from seasons.models import Season, Competitor, Event, Driver
+from .models import Season, Competitor, Event, Driver
 
 
 # Register your models here.

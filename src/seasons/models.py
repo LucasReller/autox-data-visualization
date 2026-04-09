@@ -3,39 +3,13 @@ from django.db import models
 class Driver(models.Model):
     name = models.CharField(max_length=30)
 
-    def find_competitors(self):
-        return Competitor.objects.filter(driver=self).order_by('-season__year')
+    def get_all_related_competitors(self, year_span = 100):
+        min_year = int(Season.objects.order_by('-year').values_list('year', flat=True).first()) - year_span
+        return Competitor.objects.filter(driver=self, season__year__gt=min_year).order_by('-season__year')
 
-    def get_all_events(self):
-        competitors = Competitor.objects.filter(driver=self).prefetch_related('event_set')
-        events = []
-        for competitor in competitors:
-            events += competitor.event_set.all()
-        return events
-
-    def get_all_season_placements(self):
-        competitors = self.find_competitors()
-        return competitors.values_list('season_placement', flat=True)
-
-    def get_average_event_points(self):
-        competitors = self.find_competitors()
-        points = competitors.values_list('average_points', flat=True)
-        return sum(points) / len(points)
-
-    def get_average_doty_placement(self):
-        placements = self.get_all_season_placements()
-        return sum(placements) / len(placements)
-
-    def get_best_event(self):
-        competitors = Competitor.objects.filter(driver=self).prefetch_related('event_set')
-        best_points = 0
-        best_event = "temp"
-        for competitor in competitors:
-            best = competitor.get_best_event().doty_points
-            if best > best_points:
-                best_points = best
-                best_event = competitor.get_best_event().event_name + " " + str(competitor.season)
-        return best_event, best_points
+    def get_all_related_events(self, year_span = 100):
+        competitors = self.get_all_related_competitors(year_span)
+        return Event.objects.filter(competitor__in=competitors)
 
     def __str__(self):
         return self.name
@@ -55,9 +29,6 @@ class Competitor(models.Model):
     season_points = models.FloatField(default=0)
     average_points = models.FloatField(default=0)
 
-    def get_best_event(self):
-        return Event.objects.filter(competitor=self).order_by('-doty_points').first()
-
     def __str__(self):
         return self.driver.name + ' ' +str(self.season.year)
 
@@ -67,7 +38,7 @@ class Event(models.Model):
     competitor = models.ForeignKey(Competitor, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.event_name
+        return self.event_name + ' ' + str(self.competitor.season)
 
 
 

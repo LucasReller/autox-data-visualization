@@ -1,10 +1,7 @@
 import re
-import sys
 
 import requests
 from bs4 import BeautifulSoup
-
-from webcrawler.model_builder import ModelBuilder
 
 class WebCrawler:
     # example 2018 or newer url

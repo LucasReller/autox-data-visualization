@@ -141,7 +141,7 @@
                     {% for driver in drivers_list %}
                         <div class="result" style="cursor: pointer;" onclick='location.href="driver/{{driver.id}}";'>
                             <strong>{{ driver }}</strong>
-                            {% for competitor in driver.find_competitors %}
+                            {% for competitor in driver.get_all_related_competitors %}
                                 <a href="{% url 'seasons:competitor' competitor.id %}"
                                        data-season="{{ competitor.season.year }}"
                                         data-placement="{{ competitor.season_placement }}">

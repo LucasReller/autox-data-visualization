@@ -1,5 +1,4 @@
-from seasons.models import Event, Competitor, Season, Driver
-
+from src.autox_data_app.models import Event, Competitor, Season, Driver
 
 class ModelBuilder:
 

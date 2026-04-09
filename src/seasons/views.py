@@ -1,9 +1,8 @@
-import sys
-from datetime import datetime
-from xmlrpc.client import DateTime
 
-from django.shortcuts import get_object_or_404, render
-from django.views import View, generic
+from datetime import datetime
+
+from django.db.models.aggregates import Avg
+from django.views import generic
 
 from webcrawler.web_crawler import WebCrawler
 from .models import Season, Driver, Competitor, Event
@@ -86,11 +85,20 @@ class DriverView(generic.DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(DriverView, self).get_context_data(**kwargs)
-        context['avg_points'] = Driver.get_average_event_points(self.object)
-        context['event_count'] = len(Driver.get_all_events(self.object))
-        context['avg_doty'] = Driver.get_average_doty_placement(self.object)
-        context['best_doty'] = min(Driver.get_all_season_placements(self.object))
-        context['best_event_points'] = Driver.get_best_event(self.object)[1]
-        context['best_event'] = Driver.get_best_event(self.object)[0]
+        context['lifetime_avg_points'] = Driver.get_all_related_competitors(self.object).aggregate(avg=Avg('average_points'))['avg']
+        context['lifetime_avg_doty'] = Driver.get_all_related_competitors(self.object).aggregate(avg=Avg('season_placement'))['avg']
+        context['lifetime_best_doty_placement'] = min(Driver.get_all_related_competitors(self.object).values_list('season_placement', flat=True))
+        context['lifetime_best_doty_season'] = Driver.get_all_related_competitors(self.object).order_by('season_placement').values_list('season__year', flat=True).first()
+        context['lifetime_best_event_points'] = Driver.get_all_related_events(self.object).order_by('-doty_points', '-competitor__season__year').first().doty_points
+        context['lifetime_best_event'] = Driver.get_all_related_events(self.object).order_by('-doty_points', '-competitor__season__year').first().event_name
+        context['lifetime_event_count'] = len(Driver.get_all_related_events(self.object))
+
+        context['filtered_avg_points'] = Driver.get_all_related_competitors(self.object, 5).aggregate(avg=Avg('average_points'))['avg']
+        context['filtered_avg_doty'] = Driver.get_all_related_competitors(self.object, 5).aggregate(avg=Avg('season_placement'))['avg']
+        context['filtered_best_doty_placement'] = min(Driver.get_all_related_competitors(self.object, 5).values_list('season_placement', flat=True))
+        context['filtered_best_doty_season'] = Driver.get_all_related_competitors(self.object, 5).order_by('season_placement').values_list('season__year', flat=True).first()
+        context['filtered_best_event_points'] = Driver.get_all_related_events(self.object, 5).order_by('-doty_points', '-competitor__season__year').first().doty_points
+        context['filtered_best_event'] = Driver.get_all_related_events(self.object, 5).order_by('-doty_points', '-competitor__season__year').first().event_name
+        context['filtered_event_count'] = len(Driver.get_all_related_events(self.object, 5))
         return context
 
