@@ -1,0 +1,75 @@
+      body {
+        margin: 0;
+        font-family: 'Helvetica Neue', Arial, sans-serif;
+        background: #ffffff;
+        color: #000000;
+        line-height: 1.5;
+      }
+
+      /* Header */
+      .header {
+        text-align: center;
+        padding: 60px 20px 30px;
+        background: #000;
+        color: #fff;
+      }
+      h1 {
+        margin: 0;
+        font-size: clamp(32px, 6vw, 56px);
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      /* Main container */
+      .container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 30px 20px 60px;
+      }
+
+      /* Section headings */
+      h2 {
+        font-size: 1.25rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        margin: 25px 0 15px;
+        border-bottom: 2px solid #000;
+        padding-bottom: 6px;
+      }
+
+      /* Card blocks */
+      .card {
+        background: #f7f7f7;
+        border: 1px solid #ddd;
+        padding: 18px 20px;
+        margin-bottom: 20px;
+      }
+
+      .card p {
+        margin: 6px 0;
+        font-size: 0.95rem;
+      }
+
+      .card strong {
+        display: block;
+        font-size: 1.1rem;
+        margin-bottom: 10px;
+      }
+
+      /* Event list */
+      ul {
+        padding-left: 18px;
+        margin: 10px 0;
+      }
+
+      li {
+        margin-bottom: 6px;
+        font-size: 0.95rem;
+      }
+
+      /* Empty state */
+      .empty {
+        font-size: 0.95rem;
+        color: #555;
+      }

@@ -1,0 +1,105 @@
+          body {
+            margin: 0;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background: #ffffff; /* white background like mnautox */
+            color: #000000;      /* black text */
+            line-height: 1.5;
+          }
+
+          /* Header */
+          .header {
+            text-align: center;
+            padding: 60px 20px 30px;
+            background: #000; /* solid black banner */
+            color: #fff;
+          }
+          h1 {
+            margin: 0;
+            font-size: clamp(32px, 6vw, 56px);
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+          }
+
+          /* Dropdown */
+          select {
+            padding: 5px 10px;
+            border: 1px solid #000;
+            background: #fff;
+            color: #000;
+            font-size: 16px;
+            font-weight: 500;
+          }
+
+          /* Searchbar */
+          .searchbar {
+            display: flex;
+            justify-content: center;
+            padding: 30px 20px;
+          }
+          .searchbar input {
+            width: 600px;
+            max-width: 90%;
+            padding: 14px 16px;
+            border: 2px solid #000;
+            background: #fff;
+            color: #000;
+            font-size: 16px;
+            font-weight: 500;
+          }
+
+          /* Section heading */
+          .pane h2,
+          .driverPane h2 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin: 5px 0 15px;
+            color: #000;
+            border-bottom: 2px solid #000;
+            padding-bottom: 6px;
+          }
+
+          /* Driver results container */
+          .driverPane {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px 60px;
+          }
+
+            #driverResults {
+            flex: 1;              /* fill available space in driverPane */
+            overflow-y: auto;     /* make only the results scroll */
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 0.5rem;
+            max-height: 65vh;     /* you can adjust this value */
+          }
+
+          /* Result blocks */
+          .result {
+            background: #f7f7f7;
+            border: 1px solid #ddd;
+            padding: 18px 20px;
+            margin-bottom: 20px;
+          }
+          .result strong {
+            font-size: 1.1rem;
+            font-weight: 700;
+            display: block;
+            margin-bottom: 10px;
+            color: #000;
+          }
+
+          /* Links */
+          .result a {
+            color: #000;
+            text-decoration: underline;
+            font-size: 0.95rem;
+            margin-right: 12px;
+            font-weight: 500;
+          }
+          .result a:hover {
+            text-decoration: none;
+            color: #555;
+          }
